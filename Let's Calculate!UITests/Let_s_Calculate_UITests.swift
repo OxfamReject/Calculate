@@ -7,30 +7,212 @@
 //
 
 import XCTest
+@testable import Let_s_Calculate_
 
 class Let_s_Calculate_UITests: XCTestCase {
         
     override func setUp() {
         super.setUp()
-        
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
         XCUIApplication().launch()
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testReadTagWhenPressed(){
+        
+        let app = XCUIApplication()
+        app.buttons["2"].tap()
+        
+        XCTAssert(app.staticTexts["2"].exists)
+        
+    }
+    
+    func testMultipleDecimalPoints() {
+        
+        let app = XCUIApplication()
+        app.buttons["6"].tap()
+        let button = app.buttons["."]
+        button.tap()
+        button.tap()
+        app.alerts["Incorrect Function"].buttons["Ok"].tap()
+       
+        XCTAssert(app.staticTexts["6."].exists)
+    }
+    
+    func testAllClear(){
+        
+        let app = XCUIApplication()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["+"].tap()
+        app.buttons["AC"].tap()
+        app.buttons["3"].tap()
+        
+        XCTAssert(app.staticTexts["3"].exists)
+        
+    }
+    
+    func testClear(){
+        
+        let app = XCUIApplication()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["C"].tap()
+        
+        XCTAssert(app.staticTexts["1"].exists)
+        
+    }
+    
+    func testDisplayFull(){
+        
+        let app = XCUIApplication()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.alerts["Incorrect Function"].buttons["Ok"].tap()
+    
+        XCTAssert(app.staticTexts["121212121"].exists)
+        
+    }
+    
+    func testNoDecimalAtEnd(){
+        
+        let app = XCUIApplication()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["."].tap()
+        app.alerts["Incorrect Function"].buttons["Ok"].tap()
+
+        XCTAssert(app.staticTexts["12121212"].exists)
+    }
+    
+    func testShowOperators(){
+        
+        let app = XCUIApplication()
+        app.buttons["1"].tap()
+        app.buttons["+"].tap()
+        app.buttons["2"].tap()
+        app.buttons["-"].tap()
+        app.buttons["3"].tap()
+        
+        XCTAssert(app.staticTexts["1+2-3"].exists)
+    }
+    
+    func testEqualsClearsOperatorsAndDisplaysResult(){
+        
+        let app = XCUIApplication()
+        app.buttons["1"].tap()
+        app.buttons["+"].tap()
+        app.buttons["2"].tap()
+        app.buttons["-"].tap()
+        app.buttons["3"].tap()
+        app.buttons["="].tap()
+        
+        XCTAssert(app.staticTexts["0"].exists)
+    }
+    
+    func testSymbolAfterEqualsDisplay(){
+       
+        let app = XCUIApplication()
+        app.buttons["4"].tap()
+        app.buttons["+"].tap()
+        app.buttons["2"].tap()
+        app.buttons["="].tap()
+        app.buttons["-"].tap()
+        app.buttons["4"].tap()
+        
+        XCTAssert(app.staticTexts["6-4"].exists)
+        
+    }
+    
+    func testDecimalCalculation(){
+        
+        let app = XCUIApplication()
+        app.buttons["4"].tap()
+        app.buttons["."].tap()
+        app.buttons["2"].tap()
+        app.buttons["-"].tap()
+        app.buttons["5"].tap()
+        app.buttons["."].tap()
+        app.buttons["1"].tap()
+        app.buttons["="].tap()
+        
+        XCTAssert(app.staticTexts["-0.9"].exists)
+        
+    }
+    
+    
+    func testBothOperators(){
+        
+        let app = XCUIApplication()
+        app.buttons["7"].tap()
+        app.buttons["+"].tap()
+        app.buttons["2"].tap()
+        app.buttons["-"].tap()
+        app.buttons["1"].tap()
+        app.buttons["="].tap()
+        
+        XCTAssert(app.staticTexts["8"].exists)
+        
+    }
+    
+    func testAddToNull(){
+        
+        let app = XCUIApplication()
+        app.buttons["+"].tap()
+        app.alerts["Incorrect Function"].buttons["Ok"].tap()
+        
+        XCTAssert(true)
+        
+    }
+    
+    func testIsLastCharOperator(){
+        
+        let app = XCUIApplication()
+        app.buttons["4"].tap()
+        app.buttons["+"].tap()
+        app.buttons["="].tap()
+        app.alerts["Incorrect Function"].buttons["Ok"].tap()
+        
+        XCTAssert(app.staticTexts["4+"].exists)
+        
+    }
+    
+    func testEqualsPressedWithNoOperatorOnDisplay(){
+        
+        let app = XCUIApplication()
+        app.buttons["="].tap()
+        app.alerts["Incorrect Function"].buttons["Ok"].tap()
+        
+        XCTAssert(true)
+    }
+    
+    func testOperatorPressedAfterDot(){
+        
+        let app = XCUIApplication()
+        app.buttons["4"].tap()
+        app.buttons["."].tap()
+        app.buttons["-"].tap()
+        app.alerts["Incorrect Function"].buttons["Ok"].tap()
+        
+        XCTAssert(app.staticTexts["4."].exists)
+        
     }
     
 }

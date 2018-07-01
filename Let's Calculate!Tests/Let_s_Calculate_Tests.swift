@@ -11,26 +11,37 @@ import XCTest
 
 class Let_s_Calculate_Tests: XCTestCase {
     
+    var logicUnderTest: CalculatorLogic!
+    
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        logicUnderTest = CalculatorLogic()
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        logicUnderTest = nil
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    //Tests for calculator logic
+    
+    func testSubtraction(){
+        var subtractedNumbers: String = ""
+        subtractedNumbers = logicUnderTest.minusNumbers(value1: "5", value2: "3")
+         XCTAssertEqual(subtractedNumbers,"2.", "Score computed from subtraction formula is wrong")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testAddition(){
+        var addedNumbers: String = ""
+        addedNumbers = logicUnderTest.addNumbers(value1: "5", value2: "3")
+        XCTAssertEqual(addedNumbers,"8.", "Score computed from addition formula is wrong")
+    }
+    
+    func testDoubleToInt(){
+        var convertedNumber: String = ""
+        convertedNumber = logicUnderTest.resultToInt(value1: "8.0")
+        XCTAssertEqual(convertedNumber, "8", "Conversion from double to int has failed")
     }
     
 }
